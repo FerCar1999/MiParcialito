@@ -8,9 +8,9 @@ namespace MiParcialito.Models
         public int InscripcionId { get; set; }
 
         public int? CursoId { get; set; }
-        public virtual Curso Curso { get; } = new Curso();
+        public virtual Curso Curso { get; set; } = new Curso();
 
         public int? EstudianteId { get; set; }
-        public virtual Estudiante? Estudiante { get;} = new Estudiante();
+        public virtual Estudiante? Estudiante { get; set; } = new Estudiante();
     }
 }

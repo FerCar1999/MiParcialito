@@ -39,9 +39,23 @@ namespace MiParcialito.Controllers
                 return NotFound();
             }
 
+            //Checando si el estudiante ya está en ese curso
+
+            var inscription_exist = await _context.Inscripciones.Where(e => e.EstudianteId == estudianteId.Value)
+                .Where( e => e.CursoId == id).FirstOrDefaultAsync();
+
+            if (inscription_exist != null) {
+                return RedirectToAction(nameof(Index));
+            }
+
+            Estudiante estudiante = await _context.Estudiantes.FirstAsync(e=>e.EstudianteId==estudianteId.Value);
+            Curso curso = await _context.Cursos.Include(u => u.User).ThenInclude(e => e.UserType).FirstAsync(e=>e.CursoId==id);
+
             Inscripcion inscripcion = new Inscripcion();
             inscripcion.CursoId = id;
+            inscripcion.Curso = curso;
             inscripcion.EstudianteId = estudianteId.Value;
+            inscripcion.Estudiante = estudiante;
 
             _context.Add(inscripcion);
             await _context.SaveChangesAsync();
