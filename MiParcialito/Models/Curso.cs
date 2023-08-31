@@ -12,7 +12,7 @@ public partial class Curso
     public string? NombreCurso { get; set; }
 
     public int? UserId { get; set; }
-    public virtual User? User { get; set; } = new User();
+    public virtual User? User { get; } = new User();
 
-    public virtual ICollection<Inscripcion> Inscripciones { get; set; } = new List<Inscripcion>();
+    public virtual ICollection<Inscripcion> Inscripciones { get;} = new List<Inscripcion>();
 }

@@ -45,6 +45,7 @@ public partial class Cg102319Context : DbContext
             entity.HasOne(e => e.User).WithMany(e => e.Cursos)
             .HasForeignKey(i => i.UserId).HasPrincipalKey(i => i.Id)
             .OnDelete(DeleteBehavior.ClientNoAction).HasConstraintName("FK__Curso__UserId__6754599E");
+            entity.HasMany(e => e.Inscripciones).WithOne(e => e.Curso).HasForeignKey(e => e.CursoId);
         });
 
         modelBuilder.Entity<Estudiante>(entity =>
@@ -63,21 +64,21 @@ public partial class Cg102319Context : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.FechaNacimiento);
+            entity.HasMany(e => e.Inscripciones).WithOne(e => e.Estudiante).HasForeignKey(e => e.EstudianteId);
 
         });
 
         modelBuilder.Entity<Inscripcion>(entity =>
         {
-            entity.HasKey(i => new { i.EstudianteId, i.CursoId });
-
+            entity.HasKey(e => e.InscripcionId).HasName("PK__Inscripc__168316B978DADB38");
             entity.Property(e => e.InscripcionId)
                 .HasColumnName("InscripcionId").ValueGeneratedOnAdd();
-
+            entity.Property(e => e.EstudianteId).HasColumnName("EstudianteId");
             entity.HasOne(i => i.Estudiante).WithMany(e => e.Inscripciones).HasForeignKey(i => i.EstudianteId)
-            .HasPrincipalKey(e=>e.EstudianteId).OnDelete(DeleteBehavior.ClientNoAction);
-
+            .HasPrincipalKey(e=>e.EstudianteId).OnDelete(DeleteBehavior.ClientNoAction).HasConstraintName("FK__Inscripci__Estud__619B8048");
+            entity.Property(e => e.CursoId).HasColumnName("CursoId");
             entity.HasOne(i => i.Curso).WithMany(e => e.Inscripciones).HasForeignKey(i => i.CursoId)
-            .HasPrincipalKey(e => e.CursoId).OnDelete(DeleteBehavior.ClientNoAction);
+            .HasPrincipalKey(e => e.CursoId).OnDelete(DeleteBehavior.ClientNoAction).HasConstraintName("FK__Inscripci__Curso__60A75C0F");
         });
 
         modelBuilder.Entity<UserType>(entity =>

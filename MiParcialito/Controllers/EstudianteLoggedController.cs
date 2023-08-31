@@ -12,16 +12,16 @@ namespace MiParcialito.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             if (HttpContext.Session.GetString("UserType")==null && HttpContext.Session.GetString("UserType")!="Estudiante")
             {
                 return RedirectToAction("Estudiantes", "Login");
             }
-            var estudiante = await _context.Estudiantes.Include(e=>e.Inscripciones.Select(c=>c.Curso)).FirstAsync(e => e.EstudianteId == HttpContext.Session.GetInt32("Id"));
-            var cursos = await _context.Inscripciones.Where(e=>e.EstudianteId== HttpContext.Session.GetInt32("Id")).Include(c=>c.Curso).ToListAsync();
-            ViewBag.Estudiante = estudiante;
-            return View(estudiante);
+            var estudiante = _context.Estudiantes.First(e => e.EstudianteId == HttpContext.Session.GetInt32("Id"));
+            var inscripcion = _context.Inscripciones.Include(c => c.Curso).ThenInclude(u=>u.User).Where(e=>e.EstudianteId== HttpContext.Session.GetInt32("Id")).ToList();
+            ViewBag.estudiante = estudiante;
+            return View(inscripcion);
         }
 
         public async Task<IActionResult> RegistroCurso()

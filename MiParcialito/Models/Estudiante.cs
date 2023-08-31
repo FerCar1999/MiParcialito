@@ -19,6 +19,6 @@ public partial class Estudiante
     [DataType(DataType.Date)]
     public DateTime? FechaNacimiento { get; set; }
     
-    public virtual ICollection<Inscripcion> Inscripciones { get; set; } = new List<Inscripcion>();
+    public virtual ICollection<Inscripcion> Inscripciones { get; } = new List<Inscripcion>();
 
 }

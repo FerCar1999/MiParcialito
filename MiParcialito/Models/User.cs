@@ -15,7 +15,7 @@ public partial class User
     public string? Password { get; set; }
 
     public int UserTypeId { get; set; }
-    public virtual UserType? UserType { get; set; } = new UserType(); 
+    public virtual UserType? UserType { get; } = new UserType(); 
 
-    public virtual ICollection<Curso> Cursos { get; set; } = new List<Curso>();
+    public virtual ICollection<Curso> Cursos { get; } = new List<Curso>();
 }
