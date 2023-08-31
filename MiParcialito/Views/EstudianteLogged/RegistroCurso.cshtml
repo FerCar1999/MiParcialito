@@ -1,0 +1,26 @@
+﻿@model IEnumerable<MiParcialito.Models.Curso>
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_LayoutLoggin.cshtml";
+}
+
+<div class="text-center">
+    <h1>OFERTAS DISPONIBLES</h1>
+</div>
+
+<div class="container mt-4">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Curso: @Html.DisplayFor(modelItem => item.NombreCurso)</h5>
+                        <p class="card-text">Maestro: @Html.DisplayFor(modelItem => item.User.Email)</p>
+                        <a asp-action="InscripcionCurso" asp-route-id="@item.CursoId">Registrarme</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
